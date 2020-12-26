@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.activity_quotes.*
 import ungar.mvvmbasics.R
 import ungar.mvvmbasics.quotes.model.Quote
 import ungar.mvvmbasics.quotes.utilities.InjectorUtils
@@ -19,10 +20,6 @@ class QuotesActivity : AppCompatActivity() {
     }
 
     private fun initializeUi(){
-        val textView: TextView = findViewById(R.id.tv_quotes)
-        val button: Button = findViewById(R.id.button_add_quote)
-        val editTextAuthor: TextView = findViewById(R.id.editText_author)
-        val editTextQuote: TextView = findViewById(R.id.editText_quote)
         val factory = InjectorUtils.provideQuotesViewModelFactory()
         val viewModel = ViewModelProvider(this, factory)
             .get(QuotesViewModel::class.java)
@@ -31,14 +28,14 @@ class QuotesActivity : AppCompatActivity() {
             quotes.forEach{ quote ->
                 stringBuilder.append("$quote\n\n")
             }
-            textView.text = stringBuilder.toString()
+            tv_quotes.text = stringBuilder.toString()
         })
 
-        button.setOnClickListener {
-            val quote = Quote(editTextQuote.text.toString(), editTextAuthor.text.toString())
+        button_add_quote.setOnClickListener {
+            val quote = Quote(editText_quote.text.toString(), editText_author.text.toString())
             viewModel.addQuote(quote)
-            editTextQuote.setText("")
-            editTextAuthor.setText("")
+            editText_quote.setText("")
+            editText_author.setText("")
         }
     }
 }
